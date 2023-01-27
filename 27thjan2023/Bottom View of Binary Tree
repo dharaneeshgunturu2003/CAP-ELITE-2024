@@ -1,0 +1,40 @@
+
+
+//User function Template for Java
+class Pair{
+    Node node;
+    int line;
+    public Pair(Node node,int line){
+        this.node = node;
+        this.line = line;
+    }
+}
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        ArrayList<Integer> top = new ArrayList<Integer>();
+        Queue<Pair> q = new LinkedList<>();
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+         q.offer(new Pair(root,0));
+        while(!q.isEmpty()){
+            Pair k = q.remove();
+            int l = k.line;
+            Node temp = k.node;
+            if(map.get(l) == null) map.put(l,temp.data);
+            int n = q.size();
+            if(temp.right != null){
+                q.offer(new Pair(temp.right, l+1));
+            }
+            if(temp.left != null){
+                q.offer(new Pair(temp.left, l-1));
+            }
+        }
+        for(Map.Entry<Integer,Integer> i : map.entrySet()){
+            top.add(i.getValue());
+        }
+        return top;
+    }
+}
