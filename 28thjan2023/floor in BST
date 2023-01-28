@@ -1,0 +1,21 @@
+class Solution {
+    public static int floor(Node root, int key) {
+        if (root == null) return -1;
+        int k = -1;
+        while(root != null){
+            if(root.data == key){
+                k = key;
+                return key;
+            }
+            if(root.data > key){
+                
+                root = root.left;
+            }
+            else{
+                k=root.data;
+                root = root.right;
+            }
+        }
+        return k;
+    }
+}
