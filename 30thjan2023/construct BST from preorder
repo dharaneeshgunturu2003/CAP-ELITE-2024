@@ -14,14 +14,29 @@
  * }
  */
 class Solution {
-    public TreeNode bstFromPreorder(int[] preorder) {
-         return pBST(preorder,Integer.MAX_VALUE,new int[]{0});
-    }
-    public TreeNode pBST(int[] preorder,int max, int[] i){
-        if(i[0] == preorder.length || preorder[i[0]]>max) return null;
-        TreeNode root = new TreeNode(preorder[i[0]++]);
-        root.left = pBST(preorder,root.val,i);
-        root.right = pBST(preorder,max,i);
+    public TreeNode bstFromPreorder(int[] preorder) 
+    {
+        if(preorder.length==0) return null;
+        TreeNode root = new TreeNode(preorder[0]);   
+        for(int i=1;i<preorder.length;i++)
+        {
+            TreeNode node = new TreeNode(preorder[i]);          
+            fitInBST(node,root);
+        }
+        
         return root;
+    }
+    void fitInBST(TreeNode node,TreeNode root)
+    {
+        if(node.val<root.val)
+        {
+            if(root.left == null) root.left = node;
+            else fitInBST(node,root.left);
+        }
+        else if(node.val>root.val)
+        {
+            if(root.right == null) root.right = node;
+            else fitInBST(node,root.right);
+        }
     }
 }
