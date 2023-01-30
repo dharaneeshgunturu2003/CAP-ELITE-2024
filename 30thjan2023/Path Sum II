@@ -16,7 +16,7 @@
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
-        pathSum(root, sum, new ArrayList<Integer>(), res);
+        pathSum(root, targetSum, new ArrayList<Integer>(), res);
         return res;
     }
     
@@ -31,6 +31,7 @@ class Solution {
             pathSum(root.left, sum - root.val, sol, res);
             pathSum(root.right, sum - root.val, sol, res);
         }
+        sol.remove(sol.size()-1);
         
     }
 }
