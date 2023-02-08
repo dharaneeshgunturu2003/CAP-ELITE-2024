@@ -1,32 +1,37 @@
 class Solution {
    public boolean canFinish(int numCourses, int[][] prerequisites) {
-            ArrayList[] graph = new ArrayList[numCourses];
-            for(int i=0;i<numCourses;i++)
-                graph[i] = new ArrayList();
-                
-            boolean[] visited = new boolean[numCourses];
-            for(int i=0; i<prerequisites.length;i++){
-                graph[prerequisites[i][1]].add(prerequisites[i][0]);
-            }
-
-            for(int i=0; i<numCourses; i++){
-                if(!dfs(graph,visited,i))
-                    return false;
-            }
-            return true;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i=0 ; i<numCourses ; i++){
+            adj.add(new ArrayList<>());
         }
-
-        private boolean dfs(ArrayList[] graph, boolean[] visited, int course){
-            if(visited[course])
-                return false;
-            else
-                visited[course] = true;;
-
-            for(int i=0; i<graph[course].size();i++){
-                if(!dfs(graph,visited,(int)graph[course].get(i)))
-                    return false;
-            }
-            visited[course] = false;
-            return true;
+        for(int pair[] : prerequisites){
+            adj.get(pair[0]).add(pair[1]);
         }
+        int vis[] = new int[numCourses];
+        int dfsVis[] = new int[numCourses];
+        for(int i=0 ; i<numCourses ; i++){
+            if(vis[i] == 0){
+                if(check(i,adj,vis,dfsVis) == true){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    static boolean check(int node, ArrayList<ArrayList<Integer>> adj, int vis[], int dfsVis[]){
+        vis[node] = 1;
+        dfsVis[node] = 1;
+        for(int it : adj.get(node)){
+            if(vis[it] == 0){
+                if(check(it,adj,vis,dfsVis) == true){
+                    return true;
+                }
+            }
+            else if(dfsVis[it] == 1){
+                return true;
+            }
+        }
+        dfsVis[node] = 0;
+        return false;
+    }
 }
