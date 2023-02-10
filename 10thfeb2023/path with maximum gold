@@ -1,0 +1,36 @@
+class Solution {
+    int max_sum = 0;
+    public int getMaximumGold(int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        for(int i = 0;i<row;i++){
+            for(int j = 0;j<col;j++){
+                if(grid[i][j] != 0){
+                    dfs(i,j,grid,grid[i][j],row,col);
+                }
+            }
+        }
+        return max_sum;
+    }
+    public void dfs(int i,int j,int[][] grid,int sum,int row,int col){
+        if(max_sum < sum){
+            max_sum = sum;
+        }
+        int temp = grid[i][j];
+        grid[i][j] = 0;
+        if(i > 0 && grid[i-1][j] != 0){
+            dfs(i-1,j,grid,sum+grid[i-1][j],row,col);
+        }
+        if(i < row-1 && grid[i+1][j] != 0){
+            dfs(i+1,j,grid,sum+grid[i+1][j],row,col);
+        }
+        if(j > 0 && grid[i][j-1] != 0){
+            dfs(i,j-1,grid,sum+grid[i][j-1],row,col);
+        }
+        if(j < col-1 && grid[i][j+1] != 0){
+            dfs(i,j+1,grid,sum+grid[i][j+1],row,col);
+        }
+        grid[i][j] = temp;
+    }
+}
+
