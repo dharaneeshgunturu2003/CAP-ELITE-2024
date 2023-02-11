@@ -1,0 +1,31 @@
+class Solution {
+    public int[][] colorBorder(int[][] grid, int row, int col, int color) {
+        boolean[][] vis = new boolean[grid.length][grid[0].length];
+        int target = grid[row][col];
+        dfs(grid,row,col,color,target,vis);
+        return grid;
+    }
+    public static boolean dfs(int[][] grid,int i,int j,int color,int target,boolean[][] vis){
+         if(i < 0 || j < 0 || i == grid.length || j == grid[0].length){
+            return true;
+        }
+        if(vis[i][j] == true)return false;
+        
+        if(grid[i][j] != target){
+            return true;
+        }
+        
+        
+        vis[i][j] = true;      
+        boolean r = dfs(grid,i,j + 1,color,target,vis);
+        boolean d = dfs(grid,i + 1,j,color,target,vis);
+        boolean u = dfs(grid,i - 1,j,color,target,vis);
+        boolean l = dfs(grid,i,j - 1,color,target,vis);
+        
+        if(r || d || u || l){
+            grid[i][j] = color;
+        }
+       
+        return false;
+    }
+}
